@@ -1,0 +1,76 @@
+@import "../../../global";
+
+.at-table {
+  background-color: $secondary-gray;
+  border: 1px solid #000000;
+  width: 500px;
+  height: 300px;
+  border-radius: 5px;
+  color: $white;
+  font-family: $font-family;
+  overflow: auto;
+
+  .header {
+    background-color: $primary-gray;
+    display: flex;
+    border-bottom: 2px solid #000000;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 10px;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 20px;
+
+    &__group {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
+    &__item {
+      height: 20px;
+      padding: 5px 10px;
+
+      & > span {
+        font-weight: 300;
+      }
+    }
+
+    &__button {
+      background-color: $secondary-gray;
+      border-left: 1px solid #000000;
+      border-radius: 0 5px 0 0;
+      font-weight: 500;
+      width: 100px;
+
+      &:hover {
+        cursor: pointer;
+        background-color: $contrast-gray;
+      }
+    }
+  }
+
+  .table {
+    font-family: $font-family;
+    border-collapse: collapse;
+    width: 100%;
+
+    td, th {
+      border: 1px solid #000000;
+      text-align: left;
+      padding: 8px;
+    }
+
+    tr:nth-child(even) {
+      background-color: $contrast-gray;
+    }
+  }
+}
+
+@media (min-width: 800px) {
+  .at-table {
+    width: 80%;
+    height: 500px;
+  }
+}

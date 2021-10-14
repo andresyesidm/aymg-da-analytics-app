@@ -2,7 +2,7 @@
   "name": "aymg-da-analitycs-app",
   "productName": "aymg-da-analitycs-app",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "Application to data analytics",
   "main": ".webpack/main",
   "scripts": {
     "start": "electron-forge start",
@@ -11,7 +11,11 @@
     "publish": "electron-forge publish",
     "lint": "eslint --ext .ts,.tsx ."
   },
-  "keywords": [],
+  "keywords": [
+    "Analitycs",
+    "Electron",
+    "Python"
+  ],
   "author": {
     "name": "andresmonroy",
     "email": "andresyesidm@gmail.com"
@@ -46,14 +50,17 @@
         [
           "@electron-forge/plugin-webpack",
           {
-            "mainConfig": "./webpack.main.config.js",
+            "mainConfig": "./config/webpack.main.config.js",
             "renderer": {
-              "config": "./webpack.renderer.config.js",
+              "config": "./config/webpack.renderer.config.js",
               "entryPoints": [
                 {
                   "html": "./src/index.html",
                   "js": "./src/renderer.ts",
-                  "name": "main_window"
+                  "name": "main_window",
+                  "preload": {
+                    "js": "./src/preload.ts"
+                  }
                 }
               ]
             }
@@ -69,20 +76,33 @@
     "@electron-forge/maker-squirrel": "^6.0.0-beta.61",
     "@electron-forge/maker-zip": "^6.0.0-beta.61",
     "@electron-forge/plugin-webpack": "^6.0.0-beta.61",
+    "@types/react": "^17.0.29",
+    "@types/react-dom": "^17.0.9",
+    "@types/react-router-dom": "^5.3.1",
+    "@types/react-table": "^7.7.6",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
     "@vercel/webpack-asset-relocator-loader": "^1.7.0",
+    "copy-webpack-plugin": "^9.0.1",
     "css-loader": "^6.4.0",
     "electron": "15.1.2",
     "eslint": "^7.32.0",
     "eslint-plugin-import": "^2.24.2",
     "fork-ts-checker-webpack-plugin": "^6.3.4",
     "node-loader": "^2.0.0",
+    "sass": "^1.42.1",
+    "sass-loader": "^12.2.0",
     "style-loader": "^3.3.0",
     "ts-loader": "^9.2.6",
-    "typescript": "^4.4.3"
+    "typescript": "^4.4.3",
+    "url-loader": "^4.1.1"
   },
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.0"
+    "electron-squirrel-startup": "^1.0.0",
+    "python-shell": "^3.0.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^5.3.0",
+    "react-table": "^7.7.0"
   }
 }

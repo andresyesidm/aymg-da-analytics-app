@@ -1,0 +1,35 @@
+@import "../../../global";
+
+.ml-header {
+  display: flex;
+  align-items: center;
+  padding: 22px 26px 0;
+
+  &__icon {
+    width: 54px;
+    height: 38px;
+  }
+
+  &__title {
+    color: $primary-red;
+    font-family: $font-family;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0 20px;
+
+  }
+}
+
+@media (min-width: 800px) {
+  .ml-header {
+
+    &__icon {
+      width: 94px;
+      height: 78px;
+    }
+
+    &__title {
+      font-size: 32px;
+    }
+  }
+}

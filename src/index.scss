@@ -1,0 +1,7 @@
+@import './global.scss';
+
+.content {
+  background-color: $primary-gray;
+  padding-bottom: 20px;
+  min-height: calc(100vh -  20px);
+}

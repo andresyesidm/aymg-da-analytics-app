@@ -1,0 +1,16 @@
+.or-dashboard {
+  width: 100%;
+  height: 100%;
+
+  .main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 45px;
+
+    &__button {
+      margin-top: 24px;
+      width: 204px;
+    }
+  }
+}
