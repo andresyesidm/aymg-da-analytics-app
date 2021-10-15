@@ -4,26 +4,71 @@ import {ILoadProcessResponse} from "../domain/ILoadProcessResponse";
 
 export class TTest {
 
-    /*static ttestOneSample(filename: string, sample: number): Promise<ILoadProcessResponse> {
+    static ttestOneSample(filename: string, sample: number, column: string): Promise<ILoadProcessResponse> {
         return new Promise<ILoadProcessResponse>((resolve) => {
+            console.log('TTESt')
             const pyShell = new PythonShell(path.join(__dirname, 'python-scripts/ttest.py'), {
-                    args: [filename, String(sample)]
+                    args: [filename, String(sample), column]
                 }
             )
-            pyShell.on('message', (data) => {
+            const options: any = {
+                mode: 'text',
+                pythonOptions: ['-u'], // get print results in real-time
+                args: [filename, String(sample), column]
+            };
+            PythonShell.run(path.join(__dirname, 'python-scripts/ttest.py'), options, function (err, results) {
+                if (err) throw err;
+                // results is an array consisting of messages collected during execution
+                console.log('results: %j', results);
+            })
+            pyShell.on('message', (data: any,err: any) => {
+                console.log('Data', data)
+                console.log('Data', err)
                 pyShell.end((err) => {
                     if (err)
                         console.log('Err', err)
                     console.log('Successful python shell to load data');
                 })
-                data = data.toString();
                 const response = {
-                    data: JSON.parse(data),
+                    data: data,
                     filename,
                     timestamp: new Date().getTime()
                 }
                 resolve(response);
             })
         })
-    }*/
+    }
+
+    static tTestParing(filename: string, columnOne: string, columnTwo: string): Promise<ILoadProcessResponse> {
+        return new Promise<ILoadProcessResponse>((resolve) => {
+            const pyShell = new PythonShell(path.join(__dirname, 'python-scripts/ttest-ind.py'), {
+                    args: [filename, columnOne, columnTwo]
+                }
+            )
+            const options: any = {
+                mode: 'text',
+                pythonOptions: ['-u'], // get print results in real-time
+                args: [filename, columnOne, columnTwo]
+            };
+            PythonShell.run(path.join(__dirname, 'python-scripts/ttest-ind.py'), options, function (err, results) {
+                if (err) throw err;
+                // results is an array consisting of messages collected during execution
+                console.log('results: %j', results);
+            })
+            pyShell.on('message', (data: any,err: any) => {
+                console.log('Data', data)
+                pyShell.end((err) => {
+                    if (err)
+                        console.log('Err', err)
+                    console.log('Successful python shell to load data');
+                })
+                const response = {
+                    data: data,
+                    filename,
+                    timestamp: new Date().getTime()
+                }
+                resolve(response);
+            })
+        })
+    }
 }

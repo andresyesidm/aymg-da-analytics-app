@@ -13,21 +13,25 @@ function OrDashboard(): JSX.Element {
     const [tookTime, setTookTime] = useState(0);
     const [loader, setLoader] = useState(false);
     const history = useHistory();
+    console.log(history.location.state)
     const initialTimeStamp = new Date().getTime();
-    const fetchData = useCallback(async () => {
+    const fetchData = useCallback( () => {
         setLoader(true)
-        let res: ILoadProcessResponse = await window.dragApi.getData();
-        if (!res)
-            res = await window.uploadFile.getData();
-        setData(res.data);
-        setFile(res.filename);
-        setTookTime(res.timestamp - initialTimeStamp);
+        window.dragApi.getData().then((res: ILoadProcessResponse) => {
+            setData(res.data)
+            setFile(res.filename)
+            setTookTime(res.timestamp -initialTimeStamp)
+            setLoader(false)
+        });
+        window.uploadFile.getData().then((res) => {
+            setData(res.data)
+            setFile(res.filename)
+            setTookTime(res.timestamp -initialTimeStamp)
+            setLoader(false)
+        });
     }, []);
     useEffect(() => {
-        fetchData().finally(() => setLoader(false));
-        setTimeout(() => {
-            setLoader(false), 1000
-        })
+        fetchData();
     }, [fetchData]);
 
     const backToHome = () => {
@@ -46,7 +50,7 @@ function OrDashboard(): JSX.Element {
                     </div>
                 </div>
             </div>
-            <AtModal isVisible={loader}/>
+            <AtModal isVisible={loader} isLoader={true}/>
         </Fragment>
     );
 }

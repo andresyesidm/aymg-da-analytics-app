@@ -11,7 +11,17 @@ export interface IUpload {
 }
 
 export interface ITTest {
-    execute: (filename: string, sample: number) => void,
+    execute: (filename: string, sample: number, column: string) => void,
+    result: () => Promise<ILoadProcessResponse>
+}
+
+export interface ITTestInd {
+    execute: (filename: string, columnOne:string, columnTwo: string) => void,
+    result: () => Promise<ILoadProcessResponse>
+}
+
+export interface ICorrelation {
+    execute: (filename: string) => void,
     result: () => Promise<ILoadProcessResponse>
 }
 
@@ -19,6 +29,8 @@ declare global {
     interface Window {
         dragApi: IDrag,
         uploadFile: IUpload,
-        ttest: ITTest
+        ttest: ITTest,
+        ttestInd: ITTestInd,
+        correlation: ICorrelation
     }
 }

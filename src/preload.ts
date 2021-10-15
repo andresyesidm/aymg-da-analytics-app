@@ -26,10 +26,10 @@ contextBridge.exposeInMainWorld('uploadFile', {
         })
     }
 })
-/*
+
 contextBridge.exposeInMainWorld('ttest', {
-    execute: (filename: string, sample: number) => {
-        ipcRenderer.send('on-ttest', filename, sample);
+    execute: (filename: string, sample: number, column: string) => {
+        ipcRenderer.send('on-ttest', filename, sample, column);
     },
     result: () => {
         return new Promise<ILoadProcessResponse>((resolve) => {
@@ -38,4 +38,30 @@ contextBridge.exposeInMainWorld('ttest', {
             })
         })
     }
-})*/
+})
+
+contextBridge.exposeInMainWorld('ttestInd', {
+    execute: (filename: string, columnOne: string, columnTwo: string) => {
+        ipcRenderer.send('on-t-test-ind', filename, columnOne, columnTwo);
+    },
+    result: () => {
+        return new Promise<ILoadProcessResponse>((resolve) => {
+            ipcRenderer.on('on-t-test-ind-reply', (event, replyData) => {
+                resolve(replyData);
+            })
+        })
+    }
+})
+
+contextBridge.exposeInMainWorld('correlation', {
+    execute: (filename: string) => {
+        ipcRenderer.send('on-correlation', filename);
+    },
+    result: () => {
+        return new Promise<ILoadProcessResponse>((resolve) => {
+            ipcRenderer.on('on-correlation-reply', (event, replyData) => {
+                resolve(replyData);
+            })
+        })
+    }
+})
