@@ -6,21 +6,10 @@ export class TTest {
 
     static ttestOneSample(filename: string, sample: number, column: string): Promise<ILoadProcessResponse> {
         return new Promise<ILoadProcessResponse>((resolve) => {
-            console.log('TTESt')
             const pyShell = new PythonShell(path.join(__dirname, 'python-scripts/ttest.py'), {
                     args: [filename, String(sample), column]
                 }
             )
-            const options: any = {
-                mode: 'text',
-                pythonOptions: ['-u'], // get print results in real-time
-                args: [filename, String(sample), column]
-            };
-            PythonShell.run(path.join(__dirname, 'python-scripts/ttest.py'), options, function (err, results) {
-                if (err) throw err;
-                // results is an array consisting of messages collected during execution
-                console.log('results: %j', results);
-            })
             pyShell.on('message', (data: any,err: any) => {
                 console.log('Data', data)
                 console.log('Data', err)
@@ -45,16 +34,6 @@ export class TTest {
                     args: [filename, columnOne, columnTwo]
                 }
             )
-            const options: any = {
-                mode: 'text',
-                pythonOptions: ['-u'], // get print results in real-time
-                args: [filename, columnOne, columnTwo]
-            };
-            PythonShell.run(path.join(__dirname, 'python-scripts/ttest-ind.py'), options, function (err, results) {
-                if (err) throw err;
-                // results is an array consisting of messages collected during execution
-                console.log('results: %j', results);
-            })
             pyShell.on('message', (data: any,err: any) => {
                 console.log('Data', data)
                 pyShell.end((err) => {

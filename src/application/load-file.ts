@@ -20,18 +20,7 @@ export class LoadFile {
                         args: [filename]
                     }
                 )
-                console.log('heeeeeeer')
 
-                const options: any = {
-                    mode: 'text',
-                    pythonOptions: ['-u'], // get print results in real-time
-                    args: [filename]
-                };
-                PythonShell.run(path.join(__dirname, script), options, function (err, results) {
-                    if (err) throw err;
-                    // results is an array consisting of messages collected during execution
-                    console.log('results: %j', results);
-                })
                 pyShell.on('message', (data) => {
                     console.log('Heeer')
                     pyShell.end((err) => {

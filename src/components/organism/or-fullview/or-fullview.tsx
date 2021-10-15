@@ -1,4 +1,4 @@
-import React, {FormEvent, Fragment, useCallback, useEffect, useState} from "react";
+import React, {FormEvent, Fragment, useCallback, useEffect, useRef, useState} from "react";
 import {MlHeader} from "../../molecules/ml-header/ml-header";
 import {AtTable} from "../../atoms/at-table/at-table";
 import {AtButton} from "../../atoms/at-button/at-button";
@@ -8,6 +8,10 @@ import {ILoadProcessResponse} from "../../../domain/ILoadProcessResponse";
 import './or-fullview.scss'
 
 function OrFullview(): JSX.Element {
+    let select0: HTMLSelectElement;
+    let select1: HTMLSelectElement;
+    let select2: HTMLSelectElement;
+    let input: HTMLInputElement;
     const [data, setData] = useState(null);
     const [file, setFile] = useState('');
     const [tookTime, setTookTime] = useState(0);
@@ -34,10 +38,10 @@ function OrFullview(): JSX.Element {
     const backToHome = () => {
         history.push('/');
     }
-    let sampleNumber: number;
-    let columnTtest: string;
-    let columnIndTtest1: string;
-    let columnIndTtest2: string;
+    let sampleNumber = 0;
+    let columnTtest = '';
+    let columnIndTtest1 = '';
+    let columnIndTtest2 = '';
     const onInputEntry = ($event: any) => {
         sampleNumber = $event.nativeEvent.data;
         console.log($event)
@@ -54,7 +58,10 @@ function OrFullview(): JSX.Element {
     }
 
     const onTtest = () => {
+        setModal(false)
         setLoader(true)
+        input.value = "";
+        select0.value = '0'
         window.ttest.execute(file, sampleNumber, columnTtest);
         window.ttest.result().then((res) => {
             setLoader(false)
@@ -66,6 +73,9 @@ function OrFullview(): JSX.Element {
 
     const onTtestInd = () => {
         setLoader(true)
+        setModal(false)
+        select1.value = '0';
+        select2.value = '0';
         window.ttestInd.execute(file, columnIndTtest1, columnIndTtest2);
         window.ttestInd.result().then((res) => {
             setLoader(false)
@@ -81,11 +91,6 @@ function OrFullview(): JSX.Element {
         window.correlation.result().then((res) => {
             setCorrelation(res.data);
             setLoader(false)
-
-            /*
-            setMTitle('Correlation Test');
-            setMText(`Las correlaciones son: ${res.data}`)
-            setModal(true)*/
         });
     }
     return (
@@ -100,12 +105,12 @@ function OrFullview(): JSX.Element {
                     <div className='main__side'>
                         <div className='group'>
                             <div className='group__title'>TTest</div>
-                            <div className='group__label'># de datos de muestra: <input id='sample' type='Number'
+                            <div className='group__label'># de datos de muestra: <input ref={ el => input = el} id='sample' type='Number'
                                                                                         onChange={onInputEntry}
                             /></div>
                             <div className='group__label'>Columna:
-                                <select onChange={onSelectedInput1}>
-                                    <option key={0}>Sleccione</option>
+                                <select ref={ el => select0 = el} onChange={onSelectedInput1}>
+                                    <option value={0}>Seleccione</option>
                                     {data && Object.keys(data).map((key) => {
                                         return (
                                                 <option value={key}>{key}</option>
@@ -118,8 +123,8 @@ function OrFullview(): JSX.Element {
                         <div className='group'>
                             <div className='group__title'>Paired TTest</div>
                             <div className='group__label'>Columna 1:
-                                <select onChange={onSelectedInput2}>
-                                    <option key={0}>Sleccione</option>
+                                <select ref={ el => select1 = el} onChange={onSelectedInput2}>
+                                    <option value={0}>Seleccione</option>
                                     {data && Object.keys(data).map((key) => {
                                         return (
                                             <option value={key}>{key}</option>
@@ -128,8 +133,8 @@ function OrFullview(): JSX.Element {
                                 </select>
                             </div>
                             <div className='group__label'>Columna 2:
-                                <select onChange={onSelectedInput3}>
-                                    <option key={0}>Sleccione</option>
+                                <select ref={ el => select2 = el} onChange={onSelectedInput3}>
+                                    <option value={0}>Seleccione</option>
                                     {data && Object.keys(data).map((key) => {
                                         return (
                                             <option value={key}>{key}</option>

@@ -1,5 +1,6 @@
-import {app, BrowserWindow, Menu, nativeTheme} from 'electron';
+import {app, BrowserWindow, Menu, nativeTheme, Tray, nativeImage} from 'electron';
 import {ipcHandleEvents} from "./infrastructure/ipc/ipc-handle-events";
+import * as path from "path";
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: any;
@@ -24,13 +25,38 @@ const createWindow = (): void => {
     nativeTheme.themeSource = 'dark'
 
     // Open the DevTools.
-    mainWindow.webContents.openDevTools();
+    //mainWindow.webContents.openDevTools();
     Menu.setApplicationMenu(null);
+
 };
+
+let tray: Tray = null
 
 app.whenReady().then(() => {
     createWindow();
     ipcHandleEvents(mainWindow);
+    tray = new Tray(path.join(__dirname, 'assets/img/Logo.png'))
+    const contextMenu = Menu.buildFromTemplate([
+        {
+            label: 'Mostrar App', click: () => {
+                if (BrowserWindow.getAllWindows().length === 0) {
+                    createWindow()
+                } else {
+                    mainWindow.show();
+                }
+            }
+        },
+        {
+            label: 'Cerrar', click: () => {
+                if (process.platform !== 'darwin') {
+                    tray.destroy();
+                    app.quit()
+                }
+            }
+        }
+    ])
+    tray.setToolTip('Analisís de Datos.')
+    tray.setContextMenu(contextMenu)
 
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) {
@@ -38,11 +64,13 @@ app.whenReady().then(() => {
         }
     })
 
-    app.on('window-all-closed', () => {
+    app.on('window-all-closed', ($event: any) => {
         if (process.platform !== 'darwin') {
-            app.quit()
+                $event.preventDefault();
         }
     })
+
+
 })
 
 

@@ -11,7 +11,8 @@ module.exports = {
   plugins: [
     new CopyPlugin({
       patterns: [
-        {context: "./src/infrastructure/python-scripts/", from: "*.py", to: 'python-scripts'}
+        {context: "./src/infrastructure/python-scripts/", from: "*.py", to: 'python-scripts'},
+        {context: "./src/assets/img/", from: "Logo.png", to: 'assets/img'}
       ]
     })
   ],

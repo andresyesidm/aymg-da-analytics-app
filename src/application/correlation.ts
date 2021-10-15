@@ -10,17 +10,7 @@ export class Correlation {
                     args: [filename]
                 }
             )
-            const options: any = {
-                mode: 'text',
-                pythonOptions: ['-u'], // get print results in real-time
-                args: [filename]
-            };
             console.log('Correlation')
-            PythonShell.run(path.join(__dirname, 'python-scripts/correlation.py'), options, function (err, results) {
-                if (err) throw err;
-                // results is an array consisting of messages collected during execution
-                console.log('results: %j', results);
-            })
             pyShell.on('message', (data: any,err: any) => {
                 console.log('Correlation', data)
                 pyShell.end((err) => {
