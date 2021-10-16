@@ -1,4 +1,4 @@
-# Applicación de análisis de datos
+# Aplicación de análisis de datos
 ## aymg-da-analytics-app
 
 [![Electron](http://img.shields.io/badge/Electron-v15.1.X-brighgrenn.svg)](https://www.electronjs.org/)
